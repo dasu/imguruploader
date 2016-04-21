@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.IO;
-using System.Drawing;
-using System.Net;
 using System.Configuration;
 using System.Diagnostics;
-using System.Xml;
+using System.Drawing;
+using System.IO;
+using System.Net;
+using System.Text;
 
 namespace ImgurUploader
 {
@@ -65,6 +63,7 @@ namespace ImgurUploader
                     hr.ContentType = "multipart/form-data; boundary=" + bound;
                     hr.Method = "POST";
                     hr.KeepAlive = true;
+                    hr.Headers.Add("Authorization", ConfigurationManager.AppSettings["ApiKey"]);
                     hr.Credentials = CredentialCache.DefaultCredentials;
 
                     byte[] boundBytes = Encoding.ASCII.GetBytes("\r\n--" + bound + "\r\n");
@@ -132,24 +131,18 @@ namespace ImgurUploader
                     status.FileProcessMessage = "All finished, what's next?";
                     status.FileProcessProgress = 1;
                     UpdateStatus(this, status);
-
-                    XmlDocument responseXml = new XmlDocument();
-                    responseXml.LoadXml(responseString);
-                    if (responseXml["rsp"].Attributes["stat"].Value == "ok")
-                        FileComplete(this, new ImgurUploadInfo
+                    dynamic responsejson = JsonConvert.DeserializeObject(responseString);
+                    if (responsejson.success == true)
                         {
-                            imgur_page = responseXml["rsp"]["imgur_page"].InnerText,
-                            original_image = responseXml["rsp"]["original_image"].InnerText,
-                            small_thumbnail = responseXml["rsp"]["small_thumbnail"].InnerText,
-                            large_thumbnail = responseXml["rsp"]["large_thumbnail"].InnerText,
-                            delete_page = responseXml["rsp"]["delete_page"].InnerText,
-                            delete_hash = responseXml["rsp"]["delete_hash"].InnerText,
-                            image_hash = responseXml["rsp"]["image_hash"].InnerText,
-                            file = file
-                        });
+                            FileComplete(this, new ImgurUploadInfo
+                            {
+                                imgur_page = responsejson.data.link,
+                                delete_hash = "https://api.imgur.com/3/image/"+responsejson.data.deletehash,
+                                file = file
+                            });
+                        }
                     else
                         throw new InvalidFileException { Message = "Imgur didn't like it" };
-
                     hr = null;
                 }
                 catch (InvalidFileException ex)
@@ -172,57 +165,16 @@ namespace ImgurUploader
     [Serializable]
     public class ImgurUploadInfo
     {
-        public string image_hash { get; set; }
         public string delete_hash { get; set; }
-        public string original_image { get; set; }
-        public string large_thumbnail { get; set; }
-        public string small_thumbnail { get; set; }
         public string imgur_page { get; set; }
-        public string delete_page { get; set; }
         public string file { get; set; }
-
-        public string Format(TextFormatType type, ImageFormatSize size, bool includeLinkToOriginal)
-        {
-            string thumnailToUse = this.original_image;
-            switch(size)
-            {
-                case ImageFormatSize.Large:
-                    thumnailToUse = this.large_thumbnail;
-                    break;
-                case ImageFormatSize.Small:
-                    thumnailToUse = this.small_thumbnail;
-                    break;
-            }
-
-            switch (type)
-            {
-                case TextFormatType.DirectLink:
-                    return String.Format("{0}", this.original_image);
-                case TextFormatType.BBCode:
-                    return includeLinkToOriginal ? 
-                        String.Format("[URL={0}][IMG]{1}[/IMG][/URL]", this.original_image, thumnailToUse) : 
-                        String.Format("[IMG]{0}[/IMG]", thumnailToUse);
-                case TextFormatType.Html:
-                    return includeLinkToOriginal ?
-                        String.Format("<a href=\"{0}\" title=\"Hosted by imgur\"><img src=\"{1}\" /></a>", this.original_image, thumnailToUse) :
-                        String.Format("<img src=\"{0}\" />", thumnailToUse);
-                case TextFormatType.MarkdownLink:
-                    return String.Format("[%linktext%]({0})", this.imgur_page);
-                case TextFormatType.StackOverflowEmbeddable:
-                    return String.Format("![%alttext%]({0})", thumnailToUse);
-            }
-
-            return this.original_image;
-        }
 
         public string DumpDetails(string delimiter)
         {
-            return String.Format("Imgur Page: {1}{0}Large Thumb: {2}{0}Small Thumb: {3}{0}Delete Page: {4}",
+            return String.Format("Imgur Page: {1}{0}Delete Page: {4}",
                 delimiter,
                 this.imgur_page,
-                this.large_thumbnail,
-                this.small_thumbnail,
-                this.delete_page);
+                this.delete_hash);
         }
     }
 

@@ -169,16 +169,7 @@
             this.formatCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.formatCombo.FormattingEnabled = true;
             this.formatCombo.Items.AddRange(new object[] {
-            "Html List (Large Thumnails)",
-            "Html List (Small Thumnails)",
-            "Message Board List (BBCode) (Large Thumbs)",
-            "Message Board List (BBCode) (Small Thumbs)",
-            "Message Board Lines (BBCode) (Large Thumbs)",
-            "Message Board Lines (BBCode) (Small Thumbs)",
-            "Markdown List (Reddit friendly)",
-            "Simple List (Imgur Pages)",
-            "Simple List (Originals)",
-            "Detail List"});
+            "Upload Results"});
             this.formatCombo.Location = new System.Drawing.Point(175, 355);
             this.formatCombo.Name = "formatCombo";
             this.formatCombo.Size = new System.Drawing.Size(233, 21);

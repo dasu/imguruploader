@@ -1,0 +1,10 @@
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\bin\Release\ImgurUploader.exe.config
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\bin\Release\ImgurUploader.exe
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\bin\Release\ImgurUploader.pdb
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\bin\Release\Newtonsoft.Json.dll
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\bin\Release\Newtonsoft.Json.xml
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\obj\Release\ImgurUploader.ProgressForm.resources
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\obj\Release\ImgurUploader.Properties.Resources.resources
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\obj\Release\ImgurUploader.csproj.GenerateResource.Cache
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\obj\Release\ImgurUploader.exe
+D:\imgur\tags\release-2010-02-23-01\ImgurUploader\obj\Release\ImgurUploader.pdb

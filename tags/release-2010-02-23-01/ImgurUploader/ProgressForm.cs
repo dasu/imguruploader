@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
@@ -56,10 +51,7 @@ namespace ImgurUploader
             Uploaded.Add(u);
             AddLabelAndLink(u.file, "", false);
             AddLabelAndLink("Imgur Page:", u.imgur_page, true);
-            AddLabelAndLink("Original:", u.original_image, true);
-            AddLabelAndLink("Large Thumb:", u.large_thumbnail, true);
-            AddLabelAndLink("Small Thumb:", u.small_thumbnail, true);
-            AddLabelAndLink("Delete Link:", u.delete_page, true);
+            AddLabelAndLink("Delete Link:", u.delete_hash, true);
         }
 
         List<ImgurUploadInfo> Uploaded = new List<ImgurUploadInfo>();
@@ -96,7 +88,6 @@ namespace ImgurUploader
         {
             if (Uploaded == null || Uploaded.Count == 0) return;
             string clipTxt = "";
-
             /*
             Html List (Large Thumnails)
             Html List (Small Thumnails)
@@ -111,50 +102,7 @@ namespace ImgurUploader
              */
             switch (formatCombo.SelectedItem.ToString())
             {
-                case "Html List (Large Thumnails)":
-                    clipTxt += "<ul>";
-                    Uploaded.ForEach(u => clipTxt += String.Format("<li>{0}</li>", 
-                        u.Format(TextFormatType.Html, ImageFormatSize.Large, linkCheck.Checked)));
-                    clipTxt += "<ul>";
-                    break;
-                case "Html List (Small Thumnails)":
-                    clipTxt += "<ul>";
-                    Uploaded.ForEach(u => clipTxt += String.Format("<li>{0}</li>",
-                        u.Format(TextFormatType.Html, ImageFormatSize.Small, linkCheck.Checked)));
-                    clipTxt += "<ul>";
-                    break;
-                case "Message Board List (BBCode) (Large Thumbs)":
-                    clipTxt += "[LIST]";
-                    Uploaded.ForEach(u => clipTxt += String.Format("[*]{0}",
-                        u.Format(TextFormatType.BBCode, ImageFormatSize.Large, linkCheck.Checked)));
-                    clipTxt += "[/LIST]";
-                    break;
-                case "Message Board List (BBCode) (Small Thumbs)":
-                    clipTxt += "[LIST]";
-                    Uploaded.ForEach(u => clipTxt += String.Format("[*]{0}",
-                        u.Format(TextFormatType.BBCode, ImageFormatSize.Small, linkCheck.Checked)));
-                    clipTxt += "[/LIST]";
-                    break;
-                case "Message Board Lines (BBCode) (Large Thumbs)":
-                    Uploaded.ForEach(u => clipTxt += String.Format("{0}\n",
-                        u.Format(TextFormatType.BBCode, ImageFormatSize.Large, linkCheck.Checked)));
-                    break;
-                case "Message Board Lines (BBCode) (Small Thumbs)":
-                    Uploaded.ForEach(u => clipTxt += String.Format("{0}\n",
-                        u.Format(TextFormatType.BBCode, ImageFormatSize.Small, linkCheck.Checked)));
-                    break;
-                case "Markdown List (Reddit friendly)":
-                    //doesn't care about image size, links to imgur page
-                    Uploaded.ForEach(u => clipTxt += String.Format("* {0}",
-                        u.Format(TextFormatType.MarkdownLink, ImageFormatSize.Small, linkCheck.Checked)));
-                    break;
-                case "Simple List (Imgur Pages)":
-                    Uploaded.ForEach(u => clipTxt += String.Format("{0}\n",
-                        u.imgur_page));
-                    break;
-                case "Simple List (Originals)":
-                    Uploaded.ForEach(u => clipTxt += String.Format("{0}\n",
-                        u.original_image));
+                case "Upload Results":
                     break;
                 default:
                     foreach (ImgurUploadInfo u in Uploaded)
@@ -166,8 +114,8 @@ namespace ImgurUploader
                     }
                     break;
             }
-
-            Clipboard.SetText(clipTxt.Trim());
+            
+            Clipboard.SetText(Uploaded[0].imgur_page);
         }
 
         private void ProgressForm_Load(object sender, EventArgs e)
