@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImgurUploader", "ImgurUploader\ImgurUploader.csproj", "{4786C21A-EA3F-4E0D-A3E3-E2DDB49B6AF9}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ImgurUploaderSetup", "ImgurUploaderSetup\ImgurUploaderSetup.vdproj", "{9E955C71-1A72-4BCD-90ED-F16EA9D2F55D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{00671A41-27D3-408A-9093-D4F2BE524CBD}"
+	ProjectSection(SolutionItems) = preProject
+		ImgurUploaderSetup\msifix.js = ImgurUploaderSetup\msifix.js
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4786C21A-EA3F-4E0D-A3E3-E2DDB49B6AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4786C21A-EA3F-4E0D-A3E3-E2DDB49B6AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4786C21A-EA3F-4E0D-A3E3-E2DDB49B6AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4786C21A-EA3F-4E0D-A3E3-E2DDB49B6AF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E955C71-1A72-4BCD-90ED-F16EA9D2F55D}.Debug|Any CPU.ActiveCfg = Debug
+		{9E955C71-1A72-4BCD-90ED-F16EA9D2F55D}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
